@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+header {
+  height: auto;
+  width: 100%;
+  background-color: var(--primary-material);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 30px;
+}
+
+.title-container {
+  display: flex;
+  align-items: center;
+  color: white;
+}
+.title__icon {
+  height: 40px;
+  width: 40px;
+  font-size: 40px;
+  margin-right: 8px;
+}
+.title__name {
+  font-size: 24px;
+  font-weight: 450;
+}

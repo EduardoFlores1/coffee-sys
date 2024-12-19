@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+
+  --primary-material: #673ab7;
+  --primary-container-material: #d8d8d8;
+  
+  --h1-size: 36px;
+  --h2-size: 21px;
+  --h3-size: 18px;
+  --h4-size: 14px;
+
+  h1 { font-size: 36px; margin: 0;}
+  h2 { font-size: 21px; margin: 0;}
+  h3 { font-size: 18px; margin: 0;}
+  h4 { font-size: 14px; margin: 0;}
+
+  p {margin: 0}
+
+}

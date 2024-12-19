@@ -1,0 +1,65 @@
+.container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-container-material);
+}
+
+.card-left {
+  background-color: var(--primary-material);
+  height: 75%;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.left__title {
+  font-size: 34px;
+  font-weight: 500;
+  text-decoration: underline;
+  margin-top: 15%;
+  margin-bottom: 15%;
+  color: white;
+}
+.left__img {
+  height: 222px;
+  width: 222px;
+}
+
+
+.card-right {
+  background-color: white;
+  height: 75%;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.right--info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.right__title {
+  font-size: 24px;
+  font-weight: 450;
+}
+.right__logo {
+  height: 76px;
+  width: 76px;
+}
+.right__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+input[type="password"]::-ms-reveal, 
+input[type="password"]::-ms-clear {
+    display: none;
+}

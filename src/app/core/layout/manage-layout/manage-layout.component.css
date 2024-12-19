@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header-container {
+  height: 10vh;
+  display: flex;
+}
+.header-spacer {
+  flex: 1 1 auto;
+}
+
+.drawer-container {
+  height: 90vh;
+  background-color: blueviolet;
+}
+.drawer-side {
+  display: flex;
+  justify-content: center;
+  width: 260px;
+  height: 100%;
+}
+.drawer-list {
+  width: 220px;
+  margin: 0 auto;
+  gap: 10px;
+}
+.drawer-list a {
+  margin: 8px auto;
+}
+.item-detail{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.active {
+  opacity: 1;
+  background-color: var(--primary-material);
+}
+.active .item-detail {
+  color: white;
+}
+
+mat-drawer-content {
+  background-color: var(--primary-container-material);
+  padding: 15px 23px;
+}

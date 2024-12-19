@@ -1,0 +1,60 @@
+<div class="container">
+
+  <mat-toolbar class="header-container" color="primary">
+    <button mat-icon-button (click)="drawer.toggle()" class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Coffe Management</span>
+    <span class="header-spacer"></span>
+    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+      <mat-icon>person_pin</mat-icon>
+    </button>
+  </mat-toolbar>
+  
+  <mat-drawer-container class="drawer-container">
+    <mat-drawer class="drawer-side" #drawer mode="side" opened="true">
+      <mat-nav-list class="drawer-list">
+        <a mat-list-item routerLink="/manage/dashboard" routerLinkActive="active">
+          <div class="item-detail">
+            <mat-icon>view_compact</mat-icon>
+            <span>Dashboard</span>
+          </div>
+        </a>
+        <a mat-list-item routerLink="/manage/categorias" routerLinkActive="active">
+          <div class="item-detail">
+            <mat-icon>loyalty</mat-icon>
+            <span>Gestionar Categorias</span>
+          </div>
+        </a>
+        <a mat-list-item routerLink="/manage/productos" routerLinkActive="active">
+          <div class="item-detail">
+            <mat-icon>free_breakfast</mat-icon>
+            <span>Gestionar Productos</span>
+          </div>
+        </a>
+        <a mat-list-item routerLink="/manage/ordenes" routerLinkActive="active">
+          <div class="item-detail">
+            <mat-icon>shopping_cart</mat-icon>
+            <span>Gestionar Ordenes</span>
+          </div>
+        </a>
+        <a mat-list-item routerLink="/manage/reports" routerLinkActive="active">
+          <div class="item-detail">
+            <mat-icon>insert_chart</mat-icon>
+            <span>Ver Ventas</span>
+          </div>
+        </a>
+        <a mat-list-item routerLink="/manage/settings" routerLinkActive="active">
+          <div class="item-detail">
+            <mat-icon>supervisor_account</mat-icon>
+            <span>Gestionar Usuarios</span>
+          </div>
+        </a>
+      </mat-nav-list>
+    </mat-drawer>
+    <mat-drawer-content>
+      <router-outlet></router-outlet>
+    </mat-drawer-content>
+  </mat-drawer-container>
+
+</div>
