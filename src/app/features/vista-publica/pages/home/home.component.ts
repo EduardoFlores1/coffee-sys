@@ -15,7 +15,8 @@ import { Router } from '@angular/router';
   styleUrl: './home.component.css'
 })
 export default class HomeComponent {
-  private _router = inject(Router);
+
+  constructor(private _router: Router) {}
 
   login() {
     this._router.navigateByUrl("/login");

@@ -31,8 +31,16 @@ export default class LoginComponent {
   sigErrorEmail = signal<string>('');
   sigErrorPassword = signal<string>('');
 
+  intervalId: any;
+
   constructor(private _fb: FormBuilder, private _router: Router) {
     this.createForm();
+  }
+
+  ngOnDestroy(): void {
+    if(this.intervalId) {
+      clearInterval(this.intervalId);
+    }
   }
 
   private createForm() {
@@ -75,6 +83,9 @@ export default class LoginComponent {
   tryLogin() {
     if(this.loginForm.valid) {
       this._snackbarService.open('Login ejecutado', 'OK');
+      this.intervalId = setInterval(() => {
+        this._router.navigateByUrl('/manage');
+      }, 2000);
     }
   }
 

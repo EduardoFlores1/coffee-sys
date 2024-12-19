@@ -22,13 +22,18 @@ export const routes: Routes = [
     component: ManageLayoutComponent,
     children: [
       {
+        path: "",
+        redirectTo: "dashboard",
+        pathMatch: "full"
+      },
+      {
         path: "dashboard",
         title: "Dashboard",
         loadComponent: () => import('./features/dashboard/pages/dashboard/dashboard.component')
       },
       {
         path: "categorias",
-        title: "Categorias",
+        title: "Categorías",
         loadComponent: () => import('./features/category-feature/pages/categorias/categorias.component')
       },
       {
@@ -40,6 +45,16 @@ export const routes: Routes = [
         path: "ordenes",
         title: "Ordenes",
         loadComponent: () => import('./features/order-feature/pages/ordenes/ordenes.component') 
+      },
+      {
+        path: "ventas",
+        title: "Ventas",
+        loadComponent: () => import('./features/bill-feature/pages/ventas/ventas.component') 
+      },
+      {
+        path: "usuarios",
+        title: "Usuarios",
+        loadComponent: () => import('./features/user-feature/pages/usuarios/usuarios.component') 
       }
     ]
   }
