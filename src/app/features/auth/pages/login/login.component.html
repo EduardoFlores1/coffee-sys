@@ -1,11 +1,18 @@
 <div class="container">
 
-  <div class="card-left">
-      <span class="left__title">Coffe-Station</span>
-      <img class="left__img" src="./../../../../../assets/images/coffe_login.svg" alt="coffe">
+  <div class="progress-bar">
+    @if (_progressbarService.showProgress()) {
+      <mat-progress-bar color="primary" mode="indeterminate" />
+    }
   </div>
 
-  <div class="card-right">
+  <div class="main">
+    <div class="card-left">
+      <span class="left__title">Coffe-Station</span>
+      <img class="left__img" src="./../../../../../assets/images/coffe_login.svg" alt="coffe">
+    </div>
+
+    <div class="card-right">
 
     <div class="right--info">
       <span class="right__title">INICIAR SESIÓN</span>
@@ -36,6 +43,7 @@
       <button type="submit" color="primary" mat-raised-button>Acceder</button>
     </form>
 
+    </div>
   </div>
 
 </div>

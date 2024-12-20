@@ -7,6 +7,9 @@ import { ProgressbarService } from '../../../../core/services/progressbar.servic
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { AuthService } from '../../../../core/services/auth.service';
+import { Subscription } from 'rxjs';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-login',
@@ -16,15 +19,19 @@ import { MatButtonModule } from '@angular/material/button';
     MatInputModule,
     MatIconModule,
     MatButtonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatProgressBarModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export default class LoginComponent {
 
+  private authSubscription?: Subscription;
+
   _snackbarService = inject(SnackbarService);
   _progressbarService = inject(ProgressbarService);
+  _authService = inject(AuthService);
 
   loginForm!: FormGroup;
   hidePassword: boolean = true;
@@ -38,9 +45,7 @@ export default class LoginComponent {
   }
 
   ngOnDestroy(): void {
-    if(this.intervalId) {
-      clearInterval(this.intervalId);
-    }
+    this.authSubscription?.unsubscribe();
   }
 
   private createForm() {
@@ -82,11 +87,24 @@ export default class LoginComponent {
 
   tryLogin() {
     if(this.loginForm.valid) {
-      this._snackbarService.open('Login ejecutado', 'OK');
-      this.intervalId = setInterval(() => {
-        this._router.navigateByUrl('/manage');
-      }, 2000);
+
+      this._progressbarService.open();
+
+      this.authSubscription = this._authService.login(this.loginForm.value.email, this.loginForm.value.password)
+      .subscribe({
+        next: (response) => {
+          this._snackbarService.open(`Bienvenido ${response.displayName}!`, 'success');
+          this._router.navigateByUrl('/manage');
+        },
+        error: (error) => {
+          this._snackbarService.open(error, 'error');
+          this._progressbarService.close();
+        },
+        complete: () => this._progressbarService.close()
+      });
+
     }
+    
   }
 
 }

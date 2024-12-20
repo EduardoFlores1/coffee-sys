@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { ManageLayoutComponent } from './core/layout/manage-layout/manage-layout.component';
+import { authGuard } from './core/guards/auth.guard';
+import { securityInnerGuard } from './core/guards/security-inner.guard';
 
 export const routes: Routes = [
   {
@@ -10,6 +12,7 @@ export const routes: Routes = [
   {
     path: "login",
     title: "Login",
+    canActivate: [authGuard],
     loadComponent: () => import('./features/auth/pages/login/login.component')
   },
   {
@@ -20,6 +23,7 @@ export const routes: Routes = [
   {
     path: "manage",
     component: ManageLayoutComponent,
+    canActivate: [securityInnerGuard],
     children: [
       {
         path: "",
