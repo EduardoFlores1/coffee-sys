@@ -1,10 +1,22 @@
 .container {
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--primary-container-material);
+}
+
+.progress-bar {
+  height: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.main {
+  flex-grow: 1;
   width: 100vw;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--primary-container-material);
 }
 
 .card-left {

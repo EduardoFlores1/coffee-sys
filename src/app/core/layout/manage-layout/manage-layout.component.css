@@ -27,8 +27,9 @@
   margin: 0 auto;
   gap: 10px;
 }
-.drawer-list a {
+.list-item {
   margin: 8px auto;
+  background-color: rgb(245, 231, 255);
 }
 .item-detail{
   display: flex;

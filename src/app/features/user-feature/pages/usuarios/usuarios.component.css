@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.header {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 6px;
+  padding: 0px 15px;
+}
+.header__title {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.filter {
+  height: 120px;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 6px;
+  padding: 0px 15px;
+}
+.filter__input {
+  width: 100%;
+}
