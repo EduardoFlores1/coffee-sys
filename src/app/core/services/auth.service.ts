@@ -1,37 +1,17 @@
 import { UserAuth } from './../models/user/user-auth.interface';
 import { Injectable } from '@angular/core';
-import { initializeApp } from 'firebase/app';
-import { Auth, getAuth, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
-import { catchError, from, map, Observable, ReplaySubject, throwError } from 'rxjs';
-import { environment } from '../../../environments/environment.development';
+import { Auth, authState, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { catchError, from, map, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private _auth: Auth;
-  private userSubject: ReplaySubject<UserAuth | null>;
   readonly authState$: Observable<any>;
 
-  constructor() {
-    const app = initializeApp(environment.angularfire_credential);
-    this._auth = getAuth(app);
-
-    this.userSubject = new ReplaySubject<UserAuth | null>(1);
-    this.authState$ = this.userSubject.asObservable();
-
-    this.setCurrentUser();
-  }
-
-  private setCurrentUser() {
-    onAuthStateChanged(this._auth, (user) => {
-      if (user) {
-        this.userSubject.next(user as UserAuth);
-      }else {
-        this.userSubject.next(null);
-      }
-    });
+  constructor(private _auth: Auth ) {
+    this.authState$ = authState(this._auth);
   }
 
   login(email: string, password: string): Observable<UserAuth> {

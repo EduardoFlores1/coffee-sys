@@ -92,10 +92,7 @@ export default class LoginComponent {
 
       this.authSubscription = this._authService.login(this.loginForm.value.email, this.loginForm.value.password)
       .subscribe({
-        next: (response) => {
-          this._snackbarService.open(`Bienvenido ${response.displayName}!`, 'success');
-          this._router.navigateByUrl('/manage');
-        },
+        next: () => this._router.navigateByUrl('/manage'),
         error: (error) => {
           this._snackbarService.open(error, 'error');
           this._progressbarService.close();
