@@ -1,0 +1,20 @@
+<div class="container">
+  <span class="title">{{dataModal.title}}</span>
+  <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+
+    <mat-form-field appearance="fill">
+      <mat-label>Categoría</mat-label>
+      <input (blur)="updateErrorMessageNombre()" matInput formControlName="nombre" placeholder="Nombre">
+      <mat-icon matSuffix>loyalty</mat-icon>
+      @if (f['nombre'].invalid) {
+        <mat-error>{{sigErrorNombre()}}</mat-error>
+      }
+    </mat-form-field>
+
+    <div class="buttons">
+      <button mat-raised-button color="primary" type="submit" [disabled]="categoryForm.invalid">{{dataModal.action}}</button>
+      <button mat-raised-button color="warn" (click)="closeModal()">cancelar</button>
+    </div>
+
+  </form>
+</div>
