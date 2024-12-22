@@ -1,4 +1,4 @@
-import { Component, Inject, signal } from '@angular/core';
+import { Component, inject, Inject, signal } from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -7,28 +7,38 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ModalRequest } from '../../../../core/models/modal/modal-request.interface';
 import { MatButtonModule } from '@angular/material/button';
 import { ModalResponse } from '../../../../core/models/modal/modal-response.interface';
+import {MatSelectModule} from '@angular/material/select';
+import { CategoryService } from '../../../category-feature/services/category.service';
+import { Observable } from 'rxjs';
+import { Category } from '../../../../core/models/category/category.interface';
+import { AsyncPipe } from '@angular/common';
+
 
 @Component({
-  selector: 'app-modal-category',
+  selector: 'app-modal-product',
   standalone: true,
   imports: [
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
     ReactiveFormsModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSelectModule,
+    AsyncPipe
   ],
-  templateUrl: './modal-category.component.html',
-  styleUrl: './modal-category.component.css'
+  templateUrl: './modal-product.component.html',
+  styleUrl: './modal-product.component.css'
 })
-export class ModalCategoryComponent {
+export class ModalProductComponent {
 
-  categoryForm!: FormGroup;
-  sigErrorNombre = signal<string>('');
+  private _categoryService = inject(CategoryService);
+  categories$!: Observable<Category[]>;
+
+  productForm!: FormGroup;
 
   constructor(
     private _fb: FormBuilder, 
-    private _dialogRef: MatDialogRef<ModalCategoryComponent>,
+    private _dialogRef: MatDialogRef<ModalProductComponent>,
     @Inject(MAT_DIALOG_DATA) public dataModal: any
   ) {
 
@@ -37,18 +47,12 @@ export class ModalCategoryComponent {
 
   }
 
-  get f() {
-    return this.categoryForm.controls;
+  ngOnInit(): void {
+    this.getAllCategories();
   }
 
-  updateErrorMessageNombre() {
-    if (this.f['nombre'].hasError('required')) {
-      this.sigErrorNombre.set('El nombre es requerido');
-    } else if (this.f['nombre'].hasError('minlength')) {
-      this.sigErrorNombre.set('Mínimo 3 caracteres');
-    } else if (this.f['nombre'].hasError('maxlength')) {
-      this.sigErrorNombre.set('Máximo 20 caracteres');
-    }
+  get f() {
+    return this.productForm.controls;
   }
 
   setFieldNombre(dataModal: ModalRequest) {
@@ -57,14 +61,21 @@ export class ModalCategoryComponent {
     }
   }
 
+  getAllCategories() {
+    this.categories$ = this._categoryService.getAllStream();
+  }
+
   createForm() {
-    this.categoryForm = this._fb.group({
-      nombre: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]]
+    this.productForm = this._fb.group({
+      categoriaId: ['', [Validators.required]],
+      nombre: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
+      precio: [null, [Validators.required, Validators.min(1), Validators.max(10000)]],
+      descripcion: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]]
     });
   }
 
   onSubmit() {
-    if (this.categoryForm.valid) {
+    if (this.productForm.valid) {
       const modalResponse: ModalResponse = {
         action: this.dataModal.action,
         dataResult: this.f['nombre'].value
@@ -77,4 +88,5 @@ export class ModalCategoryComponent {
   closeModal() {
     this._dialogRef.close();
   }
+
 }

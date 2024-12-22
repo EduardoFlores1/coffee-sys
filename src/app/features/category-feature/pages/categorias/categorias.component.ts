@@ -51,9 +51,8 @@ export default class CategoriasComponent {
   }
 
   private getAllCategories() {
-    this._categoryService.getAll().pipe(takeUntil(this.destroy$))
+    this._categoryService.getAllStream().pipe(takeUntil(this.destroy$))
     .subscribe((categorias: Category[]) => {
-      console.log(categorias);
       this.dataSource.data = categorias;
     });
   }

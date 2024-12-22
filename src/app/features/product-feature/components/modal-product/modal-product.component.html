@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="title-container">
+    <span class="title">{{dataModal.title}}</span>
+  </div>
+  <form class="body-form" [formGroup]="productForm" (ngSubmit)="onSubmit()">
+
+    <mat-form-field appearance="fill">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="nombre" placeholder="Nombre">
+      <mat-icon matSuffix>loyalty</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Precio</mat-label>
+      <input matInput formControlName="precio" placeholder="Precio">
+      <mat-icon matSuffix>loyalty</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Categoría</mat-label>
+      <mat-select formControlName="categoriaId" required>
+        @if (categories$ | async; as categorias) {
+            @for (cat of categorias; track $index) {
+              <mat-option [value]="cat.id">{{cat.nombre}}</mat-option>
+            }
+        }@else {
+          <mat-option>cargando ...</mat-option>
+        }
+      </mat-select>
+      <mat-icon matSuffix>loyalty</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Descripción</mat-label>
+      <input matInput formControlName="descripcion" placeholder="Descripción">
+      <mat-icon matSuffix>loyalty</mat-icon>
+    </mat-form-field>
+
+    <div class="buttons">
+      <button mat-raised-button color="primary" type="submit" [disabled]="productForm.invalid">
+        <mat-icon>save</mat-icon>
+        {{dataModal.action}}
+      </button>
+      <button mat-raised-button color="warn" (click)="closeModal()">
+        <mat-icon>cancel</mat-icon>
+        cancelar
+      </button>
+    </div>
+
+  </form>
+</div>

@@ -9,24 +9,29 @@ import { CategoryCreate } from '../../../core/models/category/category-create.in
 })
 export class CategoryService {
 
-  private categoryCollecion: CollectionReference;
+  private categoryCollection: CollectionReference;
 
   constructor(private _firestore: Firestore) {
-    this.categoryCollecion = collection(this._firestore, 'categorias');
+    this.categoryCollection = collection(this._firestore, 'categorias');
   }
 
-  getAll(): Observable<Category[]> {
-    return collectionData(this.categoryCollecion, { idField: 'id' }) as Observable<Category[]>;
+  getAllStream(): Observable<Category[]> {
+    return collectionData(this.categoryCollection, { idField: 'id' }) as Observable<Category[]>;
   }
 
-  getById(idCategory: string): Observable<Category> {
-    const docRef = doc(this.categoryCollecion, idCategory);
+  getByIdStream(idCategory: string): Observable<Category> {
+    const docRef = doc(this.categoryCollection, idCategory);
     return docData(docRef, { idField: 'id' }) as Observable<Category>;
+  }
+
+  getById(idCategory: string) {
+    const docRef = doc(this.categoryCollection, idCategory);
+    return getDoc(docRef);
   }
 
   create(categoryCreate: CategoryCreate): Observable<void> {
       return new Observable<void>(observer => {
-        addDoc(this.categoryCollecion, categoryCreate)
+        addDoc(this.categoryCollection, categoryCreate)
         .then(() => {
           observer.next();
           observer.complete();
@@ -36,7 +41,7 @@ export class CategoryService {
   }
 
   updateById(idCategory: string, category: Category): Observable<void> {
-    const docRef = doc(this.categoryCollecion, idCategory);
+    const docRef = doc(this.categoryCollection, idCategory);
     return new Observable<void>(observer => {
       updateDoc(docRef, { nombre: category.nombre })
       .then(() => {
@@ -48,7 +53,7 @@ export class CategoryService {
   }
 
   deleteById(idCategory: string): Observable<void> {
-    const docRef = doc(this.categoryCollecion, idCategory);
+    const docRef = doc(this.categoryCollection, idCategory);
     return new Observable<void>(observer => {
       deleteDoc(docRef)
       .then(() => {

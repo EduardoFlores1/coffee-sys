@@ -1,6 +1,8 @@
 <div class="container">
-  <span class="title">{{dataModal.title}}</span>
-  <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+  <div class="title-container">
+    <span class="title">{{dataModal.title}}</span>
+  </div>
+  <form class="body-form" [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
 
     <mat-form-field appearance="fill">
       <mat-label>Categoría</mat-label>
@@ -12,8 +14,14 @@
     </mat-form-field>
 
     <div class="buttons">
-      <button mat-raised-button color="primary" type="submit" [disabled]="categoryForm.invalid">{{dataModal.action}}</button>
-      <button mat-raised-button color="warn" (click)="closeModal()">cancelar</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="categoryForm.invalid">
+        <mat-icon>save</mat-icon>
+        {{dataModal.action}}
+      </button>
+      <button mat-raised-button color="warn" (click)="closeModal()">
+        <mat-icon>cancel</mat-icon>
+        cancelar
+      </button>
     </div>
 
   </form>

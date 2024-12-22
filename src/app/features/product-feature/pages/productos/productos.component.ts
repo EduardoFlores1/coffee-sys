@@ -1,30 +1,18 @@
-import { Component } from '@angular/core';
+import { Product } from './../../../../core/models/product/product.interface';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
-import {MatTableModule} from '@angular/material/table';
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import { Subject, takeUntil } from 'rxjs';
+import { ProductService } from '../../services/product.service';
+import { SnackbarService } from '../../../../core/services/snackbar.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalProductComponent } from '../../components/modal-product/modal-product.component';
+import { ModalResponse } from '../../../../core/models/modal/modal-response.interface';
+import { ProductCreate } from '../../../../core/models/product/product-create.interface';
 
 @Component({
   selector: 'app-productos',
@@ -42,7 +30,94 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export default class ProductosComponent {
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
+  private destroy$ = new Subject<void>();
+
+  private _productService = inject(ProductService);
+  private _snackbarService = inject(SnackbarService);
+
+  displayedColumns: string[] = ['nombreCategoria', 'nombre', 'precio', 'descripcion', 'acciones'];
+  dataSource = new MatTableDataSource<Product>();
   value = '';
+
+  constructor(private dialog: MatDialog) {}
+
+  ngOnInit(): void {
+    this.getAllProducts();
+    this.filterByNombre();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private getAllProducts() {
+      this._productService.getAllStream().pipe(takeUntil(this.destroy$))
+      .subscribe((productos: Product[]) => {
+        this.dataSource.data = productos;
+      });
+  }
+
+  private createProduct(productCreate: ProductCreate) {
+      this._productService.create(productCreate)
+      .subscribe({
+        next: () => {
+          this._snackbarService.open('Producto creado correctamente', 'ok');
+        },
+        error: () => {
+          this._snackbarService.open('No se creó el producto', 'error');
+        }
+      });
+  }
+  
+  private updateProduct(idProduct: string, product: Product) {
+    this._productService.updateById(idProduct, product)
+    .subscribe({
+      next: () => {
+        this._snackbarService.open('Producto actualizado correctamente', 'ok');
+      },
+      error: () => {
+        this._snackbarService.open('No se actualizó el producto', 'error');
+      }
+    });
+  }
+
+  applyFilter(event: Event) {
+      const filterValue = (event.target as HTMLInputElement).value;
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  
+  private filterByNombre() {
+    this.dataSource.filterPredicate = (data: Product, filter: string) => {
+      return data.nombre.toLowerCase().includes(filter);
+    };
+  }
+
+  openDialog(product?: Product) {
+      const dialogRef = this.dialog.open(ModalProductComponent, {
+        width: '400px',
+        height: '220px',
+        data: {
+          title: !product ? 'Crear producto' : 'Actualizar producto', 
+          action: !product ? 'crear' : 'actualizar',
+          dataResult: product
+        }
+      });
+  
+      dialogRef.afterClosed().subscribe((result: ModalResponse) => {
+  
+        if(!result) {
+          return;
+        }
+  
+        if(result.action === 'crear') {
+          this.createProduct(result.dataResult);
+        }
+        if(result.action === 'actualizar') {
+          this.updateProduct(product?.id!, result.dataResult);
+        }
+  
+      });
+    }
+
 }
