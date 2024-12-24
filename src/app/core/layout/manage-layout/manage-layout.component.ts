@@ -8,6 +8,8 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { ProgressbarService } from '../../services/progressbar.service';
 
 @Component({
   selector: 'app-manage-layout',
@@ -20,7 +22,8 @@ import {MatMenuModule} from '@angular/material/menu';
     MatToolbarModule,
     MatListModule,
     RouterModule,
-    MatMenuModule
+    MatMenuModule,
+    MatProgressBarModule
   ],
   templateUrl: './manage-layout.component.html',
   styleUrl: './manage-layout.component.css'
@@ -30,6 +33,7 @@ export class ManageLayoutComponent {
   private authSubscription?: Subscription;
 
   _authService = inject(AuthService);
+  _progressbarService = inject(ProgressbarService);
 
   constructor(private _router: Router) {
   }

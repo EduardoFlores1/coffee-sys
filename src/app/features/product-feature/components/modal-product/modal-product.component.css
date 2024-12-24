@@ -1,0 +1,58 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+}
+
+.title-container {
+  height: 50px;
+  width: 100%;
+  background-color: var(--primary-material);
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 450;
+  margin-bottom: 20px;
+  color: white;
+  margin-bottom: 0px;
+  margin-left: 20px;
+}
+
+.body-form {
+  display: grid;
+
+  grid-template-areas: 
+  "nombre nombre"
+  "precio categoria"
+  "descripcion descripcion"
+  "buttons buttons";
+
+  gap: 10px;
+  padding: 15px;
+}
+
+.nombre {
+  grid-area: nombre;
+}
+.precio {
+  grid-area: precio;
+}
+.categoria {
+  grid-area: categoria;
+}
+.descripcion {
+  grid-area: descripcion;
+}
+.buttons {
+  grid-area: buttons;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  margin-top: 10px;
+}

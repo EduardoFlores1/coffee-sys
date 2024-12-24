@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="header-container">
+    <span class="header__title">Confirmación</span>
+  </div>
+  <div class="body-container">
+    <p class="body__title">{{dataModal.title}}</p>
+    <mat-icon class="body__icon" color="accent">{{dataModal.icon}}</mat-icon>
+  </div>
+  <div class="action-container">
+    <button class="action__button" mat-raised-button type="button" color="primary" (click)="acceptAction()">
+      <mat-icon>check_circle</mat-icon>
+      Aceptar
+    </button>
+    <button class="action__button" mat-raised-button type="button" color="warn" (click)="cancelAction()">
+      <mat-icon>cancel</mat-icon>
+      Cancelar
+    </button>
+  </div>
+</div>
