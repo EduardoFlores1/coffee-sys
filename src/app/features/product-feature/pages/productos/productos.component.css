@@ -29,3 +29,8 @@
 .filter__input {
   width: 100%;
 }
+
+.accion-container {
+  display: flex;
+  align-items: center;
+}

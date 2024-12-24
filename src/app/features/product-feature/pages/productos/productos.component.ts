@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalProductComponent } from '../../components/modal-product/modal-product.component';
 import { ModalResponse } from '../../../../core/models/modal/modal-response.interface';
 import { ProductCreate } from '../../../../core/models/product/product-create.interface';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-productos',
@@ -23,7 +24,8 @@ import { ProductCreate } from '../../../../core/models/product/product-create.in
     MatInputModule,
     MatFormFieldModule,
     FormsModule,
-    MatTableModule
+    MatTableModule,
+    MatSlideToggleModule
   ],
   templateUrl: './productos.component.html',
   styleUrl: './productos.component.css'
@@ -95,8 +97,7 @@ export default class ProductosComponent {
 
   openDialog(product?: Product) {
       const dialogRef = this.dialog.open(ModalProductComponent, {
-        width: '400px',
-        height: '220px',
+        width: '550px',
         data: {
           title: !product ? 'Crear producto' : 'Actualizar producto', 
           action: !product ? 'crear' : 'actualizar',

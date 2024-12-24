@@ -4,19 +4,19 @@
   </div>
   <form class="body-form" [formGroup]="productForm" (ngSubmit)="onSubmit()">
 
-    <mat-form-field appearance="fill">
+    <mat-form-field class="nombre" appearance="fill">
       <mat-label>Nombre</mat-label>
       <input matInput formControlName="nombre" placeholder="Nombre">
-      <mat-icon matSuffix>loyalty</mat-icon>
+      <mat-icon matSuffix>local_cafe</mat-icon>
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field class="precio" appearance="fill">
       <mat-label>Precio</mat-label>
       <input matInput formControlName="precio" placeholder="Precio">
-      <mat-icon matSuffix>loyalty</mat-icon>
+      <mat-icon matSuffix>attach_money</mat-icon>
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field class="categoria">
       <mat-label>Categoría</mat-label>
       <mat-select formControlName="categoriaId" required>
         @if (categories$ | async; as categorias) {
@@ -30,10 +30,10 @@
       <mat-icon matSuffix>loyalty</mat-icon>
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field class="descripcion" appearance="fill">
       <mat-label>Descripción</mat-label>
       <input matInput formControlName="descripcion" placeholder="Descripción">
-      <mat-icon matSuffix>loyalty</mat-icon>
+      <mat-icon matSuffix>assignment</mat-icon>
     </mat-form-field>
 
     <div class="buttons">

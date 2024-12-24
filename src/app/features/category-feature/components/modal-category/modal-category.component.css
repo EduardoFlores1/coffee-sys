@@ -1,11 +1,11 @@
 .container {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  min-height: 220px;
 }
 
 .title-container {
-  height: 20%;
+  height: 50px;
   width: 100%;
   background-color: var(--primary-material);
   display: flex;

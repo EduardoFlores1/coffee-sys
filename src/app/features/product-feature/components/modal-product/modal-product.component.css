@@ -1,11 +1,11 @@
 .container {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  min-height: 300px;
 }
 
 .title-container {
-  height: 20%;
+  height: 50px;
   width: 100%;
   background-color: var(--primary-material);
   display: flex;
@@ -22,10 +22,32 @@
 }
 
 .body-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 25px;
+  display: grid;
+
+  grid-template-areas: 
+  "nombre nombre"
+  "precio categoria"
+  "descripcion descripcion"
+  "buttons buttons";
+
+  gap: 10px;
+  padding: 15px;
+}
+
+.nombre {
+  grid-area: nombre;
+}
+.precio {
+  grid-area: precio;
+}
+.categoria {
+  grid-area: categoria;
+}
+.descripcion {
+  grid-area: descripcion;
+}
+.buttons {
+  grid-area: buttons;
 }
 
 .buttons {
