@@ -1,6 +1,6 @@
 import { Product } from './../../../core/models/product/product.interface';
 import { Injectable } from '@angular/core';
-import { addDoc, collection, collectionData, CollectionReference, doc, docData, Firestore, updateDoc } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, CollectionReference, deleteDoc, doc, docData, Firestore, updateDoc } from '@angular/fire/firestore';
 import { combineLatest, from, map, Observable, switchMap } from 'rxjs';
 import { CategoryService } from '../../category-feature/services/category.service';
 import { Category } from '../../../core/models/category/category.interface';
@@ -52,14 +52,14 @@ export class ProductService {
 
 
   create(productCreate: ProductCreate): Observable<void> {
-        return new Observable<void>(observer => {
-          addDoc(this.productCollection, {...productCreate, estado: true})
-          .then(() => {
-            observer.next();
-            observer.complete();
-          })
-          .catch(error => observer.error(error));
-        });
+    return new Observable<void>(observer => {
+      addDoc(this.productCollection, {...productCreate, estado: true})
+      .then(() => {
+        observer.next();
+        observer.complete();
+      })
+      .catch(error => observer.error(error));
+    });
   }
 
   updateById(idProduct: string, product: Product): Observable<void> {
@@ -77,6 +77,46 @@ export class ProductService {
         })
         .catch(error => observer.error(error));
       });
+  }
+
+  enabledById(idProduct: string) {
+    const docRef = doc(this.productCollection, idProduct);
+    return new Observable<void>(observer => {
+      updateDoc(docRef, {
+        estado: true
+      })
+      .then(() => {
+        observer.next();
+        observer.complete();
+      })
+      .catch(error => observer.error(error));
+    });
+  }
+
+  disabledById(idProduct: string) {
+    const docRef = doc(this.productCollection, idProduct);
+    return new Observable<void>(observer => {
+      updateDoc(docRef, {
+        estado: false
+      })
+      .then(() => {
+        observer.next();
+        observer.complete();
+      })
+      .catch(error => observer.error(error));
+    });
+  }
+
+  deleteById(idProduct: string): Observable<void> {
+    const docRef = doc(this.productCollection, idProduct);
+    return new Observable<void>(observer => {
+      deleteDoc(docRef)
+      .then(() => {
+        observer.next();
+        observer.complete();
+      })
+      .catch(error => observer.error(error));
+    });
   }
 
 }

@@ -12,6 +12,7 @@ import { CategoryService } from '../../../category-feature/services/category.ser
 import { Observable } from 'rxjs';
 import { Category } from '../../../../core/models/category/category.interface';
 import { AsyncPipe } from '@angular/common';
+import { ProductCreate } from '../../../../core/models/product/product-create.interface';
 
 
 @Component({
@@ -43,7 +44,7 @@ export class ModalProductComponent {
   ) {
 
     this.createForm();
-    this.setFieldNombre(this.dataModal);
+    this.setFieldsProduct(this.dataModal);
 
   }
 
@@ -55,9 +56,12 @@ export class ModalProductComponent {
     return this.productForm.controls;
   }
 
-  setFieldNombre(dataModal: ModalRequest) {
+  setFieldsProduct(dataModal: ModalRequest) {
     if(this.dataModal.action === 'actualizar') {
       this.f['nombre'].setValue(dataModal.dataResult.nombre);
+      this.f['categoriaId'].setValue(dataModal.dataResult.categoriaId);
+      this.f['precio'].setValue(dataModal.dataResult.precio);
+      this.f['descripcion'].setValue(dataModal.dataResult.descripcion);
     }
   }
 
@@ -69,16 +73,24 @@ export class ModalProductComponent {
     this.productForm = this._fb.group({
       categoriaId: ['', [Validators.required]],
       nombre: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
-      precio: [null, [Validators.required, Validators.min(1), Validators.max(10000)]],
+      precio: [0, [Validators.required, Validators.min(1), Validators.max(10000)]],
       descripcion: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]]
     });
   }
 
   onSubmit() {
     if (this.productForm.valid) {
+
+      const productCreate: ProductCreate = {
+        categoriaId: this.f['categoriaId'].value,
+        nombre: this.f['nombre'].value,
+        precio: this.f['precio'].value,
+        descripcion: this.f['descripcion'].value
+      }
+
       const modalResponse: ModalResponse = {
         action: this.dataModal.action,
-        dataResult: this.f['nombre'].value
+        dataResult: productCreate
       }
 
       this._dialogRef.close(modalResponse);

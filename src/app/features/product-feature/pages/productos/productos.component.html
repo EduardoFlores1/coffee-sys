@@ -48,13 +48,13 @@
         <th mat-header-cell *matHeaderCellDef> Acciones </th>
         <td mat-cell *matCellDef="let element">
           <div class="accion-container">
-            <button mat-icon-button color="primary">
+            <button mat-icon-button color="primary" (click)="openDialog(element)">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button color="primary">
+            <button mat-icon-button color="primary" (click)="openDeleteModal(element)">
               <mat-icon>delete</mat-icon>
             </button>
-            <mat-slide-toggle
+            <mat-slide-toggle (click)="onToggleState(element)"
               color="primary"
               [checked]="element.estado">
             </mat-slide-toggle>

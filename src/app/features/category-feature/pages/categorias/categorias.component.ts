@@ -95,6 +95,7 @@ export default class CategoriasComponent {
   openDialog(category?: Category) {
     const dialogRef = this.dialog.open(ModalCategoryComponent, {
       width: '400px',
+      disableClose: true,
       data: {
         title: !category ? 'Crear categoría' : 'Actualizar categoría', 
         action: !category ? 'crear' : 'actualizar',

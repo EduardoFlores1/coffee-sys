@@ -52,16 +52,4 @@ export class CategoryService {
     });
   }
 
-  deleteById(idCategory: string): Observable<void> {
-    const docRef = doc(this.categoryCollection, idCategory);
-    return new Observable<void>(observer => {
-      deleteDoc(docRef)
-      .then(() => {
-        observer.next();
-        observer.complete();
-      })
-      .catch(error => observer.error(error));
-    });
-  }
-  
 }

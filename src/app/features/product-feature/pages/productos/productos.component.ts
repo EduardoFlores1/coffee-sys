@@ -14,6 +14,7 @@ import { ModalProductComponent } from '../../components/modal-product/modal-prod
 import { ModalResponse } from '../../../../core/models/modal/modal-response.interface';
 import { ProductCreate } from '../../../../core/models/product/product-create.interface';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { ModalConfirmComponent } from '../../../../shared/components/modal-confirm/modal-confirm.component';
 
 @Component({
   selector: 'app-productos',
@@ -84,6 +85,42 @@ export default class ProductosComponent {
     });
   }
 
+  private enabledProduct(product: Product) {
+    this._productService.enabledById(product.id!)
+    .subscribe({
+      next: () => {
+        this._snackbarService.open(`Producto ${product.nombre} habilitado`, 'ok');
+      },
+      error: () => {
+        this._snackbarService.open(`No se habilitó ${product.nombre}`, 'error');
+      }
+    });
+  }
+
+  private disabledProduct(product: Product) {
+    this._productService.disabledById(product.id!)
+    .subscribe({
+      next: () => {
+        this._snackbarService.open(`Producto ${product.nombre} desabilitado`, 'ok');
+      },
+      error: () => {
+        this._snackbarService.open(`No se desabilitó ${product.nombre}`, 'error');
+      }
+    });
+  }
+
+  private deleteProduct(idProduct: string) {
+    this._productService.deleteById(idProduct)
+    .subscribe({
+      next: () => {
+        this._snackbarService.open('Producto eliminado exitosamente', 'ok');
+      },
+      error: () => {
+        this._snackbarService.open('No se pudo eliminar el producto', 'error');
+      }
+    });
+  }
+
   applyFilter(event: Event) {
       const filterValue = (event.target as HTMLInputElement).value;
       this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -95,9 +132,18 @@ export default class ProductosComponent {
     };
   }
 
+  onToggleState(product: Product) {
+    if (product.estado) {
+      this.disabledProduct(product);
+    }else {
+      this.enabledProduct(product);
+    }
+  }
+
   openDialog(product?: Product) {
       const dialogRef = this.dialog.open(ModalProductComponent, {
         width: '550px',
+        disableClose: true,
         data: {
           title: !product ? 'Crear producto' : 'Actualizar producto', 
           action: !product ? 'crear' : 'actualizar',
@@ -118,6 +164,20 @@ export default class ProductosComponent {
           this.updateProduct(product?.id!, result.dataResult);
         }
   
+      });
+    }
+
+    openDeleteModal(product: Product) {
+      const modalConfirmRef = this.dialog.open(ModalConfirmComponent, {
+        width: "500px",
+        data: {
+          title: `¿Desea eliminar el producto ${product.nombre}?`,
+          icon: 'warning'
+        }
+      });
+
+      modalConfirmRef.afterClosed().subscribe((result: boolean) => {
+        if (result) this.deleteProduct(product.id!);
       });
     }
 
